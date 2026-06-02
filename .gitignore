@@ -24,9 +24,9 @@ dependency-reduced-pom.xml
 .mvn/wrapper/MavenWrapperDownloader.java
 
 # IDEA project files
-checkstyle.iml
-checkstyle.ipr
-checkstyle.iws
+checkstyle-files-generator.iml
+checkstyle-files-generator.ipr
+checkstyle-files-generator.iws
 .idea
 
 # Vscode project files
