@@ -17,6 +17,7 @@ nb-configuration.xml
 # Maven build folder
 target
 bin
+dependency-reduced-pom.xml
 
 # Maven Wrapper (modern setup — do not include jar/downloader)
 .mvn/wrapper/maven-wrapper.jar
