@@ -14,10 +14,7 @@ import picocli.CommandLine.Parameters;
 )
 public class Main implements Runnable {
 
-    @Parameters(
-        index = "0",
-        description = "Path to the checkstyle repository directory."
-    )
+    @Parameters(description = "Path to the checkstyle repository directory.")
     private Path repositoryPath;
 
     @Option(names = "--metadata", description = "Generate metadata files.")
