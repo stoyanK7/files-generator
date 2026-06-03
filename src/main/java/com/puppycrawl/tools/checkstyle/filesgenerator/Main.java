@@ -18,7 +18,7 @@ import picocli.CommandLine.Parameters;
 public class Main implements Callable<Integer> {
 
     @Parameters(description = "Path to the checkstyle repository directory.")
-    private Path repositoryPath;
+    private Path checkstylePath;
 
     @Option(names = "--generateMetadata", description = "Generate metadata files.")
     private boolean generateMetadata;
@@ -29,14 +29,14 @@ public class Main implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         if (generateMetadata) {
-            final Path modulesPath = repositoryPath.resolve(Path.of(
+            final Path modulesPath = checkstylePath.resolve(Path.of(
                     "src", "main", "java", "com", "puppycrawl", "tools", "checkstyle"));
             MetadataGeneratorUtil.generate(
                 modulesPath,
                 "checks", "filters", "filefilters");
         }
         if (generateXdoc) {
-            XdocGenerator.generateXdocContent(repositoryPath);
+            XdocGenerator.generateXdocContent(checkstylePath);
         }
         return 0;
     }
