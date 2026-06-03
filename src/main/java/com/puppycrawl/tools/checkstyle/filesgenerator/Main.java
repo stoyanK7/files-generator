@@ -20,10 +20,10 @@ public class Main implements Callable<Integer> {
     @Parameters(description = "Path to the checkstyle repository directory.")
     private Path repositoryPath;
 
-    @Option(names = "--metadata", description = "Generate metadata files.")
+    @Option(names = "--generateMetadata", description = "Generate metadata files.")
     private boolean generateMetadata;
 
-    @Option(names = "--xdoc", description = "Generate XDoc files.")
+    @Option(names = "--generateXdoc", description = "Generate XDoc files.")
     private boolean generateXdoc;
 
     @Override
