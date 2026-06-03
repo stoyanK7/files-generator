@@ -12,6 +12,8 @@ import org.apache.maven.doxia.module.xdoc.XdocSink;
 import org.apache.maven.doxia.sink.Sink;
 import org.codehaus.plexus.component.annotations.Component;
 
+import com.puppycrawl.tools.checkstyle.site.SiteUtil;
+
 /**
  * A macro that inserts a list of the violation messages.
  */
