@@ -17,6 +17,11 @@
 
   <dependencies>
     <dependency>
+      <artifactId>checkstyle</artifactId>
+      <groupId>com.puppycrawl.tools</groupId>
+      <version>13.5.0</version>
+    </dependency>
+    <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
       <version>4.7.7</version>
