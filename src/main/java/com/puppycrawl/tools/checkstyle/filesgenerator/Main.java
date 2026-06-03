@@ -1,5 +1,8 @@
 package com.puppycrawl.tools.checkstyle.filesgenerator;
 
+import java.io.File;
+import java.util.concurrent.Callable;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import picocli.CommandLine;
@@ -12,7 +15,7 @@ import picocli.CommandLine.Parameters;
     description = "Generates metadata and XDoc files in the specified checkstyle repository.",
     mixinStandardHelpOptions = true
 )
-public class Main implements Runnable {
+public class Main implements Callable<Integer> {
 
     @Parameters(description = "Path to the checkstyle repository directory.")
     private Path repositoryPath;
@@ -24,13 +27,15 @@ public class Main implements Runnable {
     private boolean generateXdoc;
 
     @Override
-    public void run() {
+    public Integer call() throws Exception {
         if (generateMetadata) {
             // TODO: execute metadata generation.
         }
         if (generateXdoc) {
-            // TODO: execute xdoc generation.
+            File temporaryFolder = Files.createTempDirectory(null).toFile();
+            XdocGenerator.generateXdocContent(temporaryFolder);
         }
+        return 0;
     }
 
     public static void main(String[] args) {
