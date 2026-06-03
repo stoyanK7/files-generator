@@ -2,7 +2,6 @@ package com.puppycrawl.tools.checkstyle.filesgenerator;
 
 import java.util.concurrent.Callable;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import com.puppycrawl.tools.checkstyle.filesgenerator.meta.MetadataGeneratorUtil;
 import com.puppycrawl.tools.checkstyle.filesgenerator.site.XdocGenerator;
@@ -30,10 +29,10 @@ public class Main implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         if (generateMetadata) {
-            final Path modulesPath = repositoryPath.resolve(Paths.get(
+            final Path modulesPath = repositoryPath.resolve(Path.of(
                     "src", "main", "java", "com", "puppycrawl", "tools", "checkstyle"));
             MetadataGeneratorUtil.generate(
-                modulesPath.toString(),
+                modulesPath,
                 "checks", "filters", "filefilters");
         }
         if (generateXdoc) {
