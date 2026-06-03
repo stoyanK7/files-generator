@@ -1,10 +1,9 @@
 package com.puppycrawl.tools.checkstyle.filesgenerator;
 
-import java.io.File;
 import java.util.concurrent.Callable;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.puppycrawl.tools.checkstyle.filesgenerator.site.XdocGenerator;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

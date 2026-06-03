@@ -1,4 +1,4 @@
-package com.puppycrawl.tools.checkstyle.filesgenerator;
+package com.puppycrawl.tools.checkstyle.filesgenerator.site.macros;
 
 import java.io.IOException;
 import java.nio.file.Files;

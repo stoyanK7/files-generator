@@ -1,4 +1,4 @@
-package com.puppycrawl.tools.checkstyle.filesgenerator;
+package com.puppycrawl.tools.checkstyle.filesgenerator.site;
 
 import java.io.File;
 import java.io.Reader;

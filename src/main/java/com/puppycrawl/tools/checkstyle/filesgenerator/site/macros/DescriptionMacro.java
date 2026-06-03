@@ -1,4 +1,4 @@
-package com.puppycrawl.tools.checkstyle.filesgenerator;
+package com.puppycrawl.tools.checkstyle.filesgenerator.site.macros;
 
 import java.nio.file.Path;
 

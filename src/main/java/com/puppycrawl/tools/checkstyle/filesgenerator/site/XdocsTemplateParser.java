@@ -1,4 +1,4 @@
-package com.puppycrawl.tools.checkstyle.filesgenerator;
+package com.puppycrawl.tools.checkstyle.filesgenerator.site;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -21,6 +21,8 @@ import org.apache.maven.doxia.sink.Sink;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.xml.pull.XmlPullParser;
+
+import com.puppycrawl.tools.checkstyle.filesgenerator.site.macros.ExampleMacro;
 
 /**
  * Parser for Checkstyle's xdoc templates.
