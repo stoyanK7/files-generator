@@ -32,8 +32,7 @@ public class Main implements Callable<Integer> {
             // TODO: execute metadata generation.
         }
         if (generateXdoc) {
-            File temporaryFolder = Files.createTempDirectory(null).toFile();
-            XdocGenerator.generateXdocContent(temporaryFolder);
+            XdocGenerator.generateXdocContent();
         }
         return 0;
     }
