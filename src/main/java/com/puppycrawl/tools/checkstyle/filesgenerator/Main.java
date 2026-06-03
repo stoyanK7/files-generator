@@ -32,7 +32,7 @@ public class Main implements Callable<Integer> {
             // TODO: execute metadata generation.
         }
         if (generateXdoc) {
-            XdocGenerator.generateXdocContent();
+            XdocGenerator.generateXdocContent(repositoryPath);
         }
         return 0;
     }

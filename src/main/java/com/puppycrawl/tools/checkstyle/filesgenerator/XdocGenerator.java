@@ -21,7 +21,7 @@ public final class XdocGenerator {
     private XdocGenerator() {
     }
 
-    public static void generateXdocContent() throws Exception {
+    public static void generateXdocContent(Path repositoryPath) throws Exception {
         final PlexusContainer plexus = new DefaultPlexusContainer();
         final Set<Path> templatesFilePaths = XdocUtil.getXdocsTemplatesFilePaths();
         final File temporaryFolder = Files.createTempDirectory(null).toFile();
