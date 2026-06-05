@@ -85,7 +85,6 @@ public final class XmlMetaReader {
                 throw new IllegalStateException("Problem to read all modules including third "
                         + "party if any. Problem detected at file: " + fileName, exc);
             }
-            System.out.println(moduleDetails.getName());
             result.add(moduleDetails);
         }
 
