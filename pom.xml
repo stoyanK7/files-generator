@@ -12,6 +12,7 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <checkstyle.version>13.6.0-SNAPSHOT</checkstyle.version>
     <doxia.version>1.12.0</doxia.version>
   </properties>
 
@@ -31,7 +32,7 @@
     <dependency>
       <artifactId>checkstyle</artifactId>
       <groupId>com.puppycrawl.tools</groupId>
-      <version>13.6.0-SNAPSHOT</version>
+      <version>${checkstyle.version}</version>
     </dependency>
     <dependency>
       <groupId>info.picocli</groupId>
@@ -75,6 +76,13 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.puppycrawl.tools</groupId>
+      <artifactId>checkstyle</artifactId>
+      <version>${checkstyle.version}</version>
+      <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>
