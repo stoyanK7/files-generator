@@ -42,7 +42,7 @@ public final class MetadataGeneratorUtil {
      * @throws IOException ioException
      * @throws CheckstyleException checkstyleException
      */
-    public static void generate(Path path, String... moduleFolders)
+    public static void generate(String path, String... moduleFolders)
             throws IOException, CheckstyleException {
         final List<File> modulesToProcess =
             getTargetFiles(path, moduleFolders);
@@ -227,11 +227,11 @@ public final class MetadataGeneratorUtil {
      * @return files for scrapping javadoc and generation of metadata files
      * @throws IOException ioException
      */
-    private static List<File> getTargetFiles(Path path, String... moduleFolders)
+    private static List<File> getTargetFiles(String path, String... moduleFolders)
             throws IOException {
         final List<File> validFiles = new ArrayList<>();
         for (String folder : moduleFolders) {
-            try (Stream<Path> files = Files.walk(path.resolve(folder))) {
+            try (Stream<Path> files = Files.walk(Path.of(path + "/" + folder))) {
                 validFiles.addAll(
                         files.map(Path::toFile)
                         .filter(file -> {
@@ -247,3 +247,5 @@ public final class MetadataGeneratorUtil {
         return validFiles;
     }
 }
+
+

@@ -4,7 +4,6 @@ import java.util.concurrent.Callable;
 import java.nio.file.Path;
 
 import com.puppycrawl.tools.checkstyle.filesgenerator.meta.MetadataGeneratorUtil;
-import com.puppycrawl.tools.checkstyle.filesgenerator.site.XdocGenerator;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -29,14 +28,22 @@ public class Main implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         if (generateMetadata) {
-            final Path modulesPath = checkstylePath.resolve(Path.of(
-                    "src", "main", "java", "com", "puppycrawl", "tools", "checkstyle"));
+            final String checkstyleModulesDir = checkstylePath.resolve(
+                    Path.of(
+                            "src",
+                            "main",
+                            "java",
+                            "com",
+                            "puppycrawl",
+                            "tools",
+                            "checkstyle"))
+                    .toAbsolutePath()
+                    .toString();
             MetadataGeneratorUtil.generate(
-                modulesPath,
-                "checks", "filters", "filefilters");
+                    checkstyleModulesDir, "checks", "filters", "filefilters");
         }
         if (generateXdoc) {
-            XdocGenerator.generateXdocContent(checkstylePath);
+            // TODO: https://github.com/checkstyle/checkstyle/issues/13426
         }
         return 0;
     }
