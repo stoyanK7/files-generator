@@ -1,4 +1,4 @@
-package com.puppycrawl.tools.checkstyle.filesgenerator.meta;
+package com.puppycrawl.tools.checkstyle.meta;
 
 import java.io.File;
 import java.io.IOException;

@@ -3,7 +3,7 @@ package com.puppycrawl.tools.checkstyle.filesgenerator;
 import java.util.concurrent.Callable;
 import java.nio.file.Path;
 
-import com.puppycrawl.tools.checkstyle.filesgenerator.meta.MetadataGeneratorUtil;
+import com.puppycrawl.tools.checkstyle.meta.MetadataGeneratorUtil;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
