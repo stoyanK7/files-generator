@@ -18,10 +18,6 @@ import javax.xml.transform.TransformerException;
 import org.apache.maven.doxia.macro.MacroExecutionException;
 
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
-import com.puppycrawl.tools.checkstyle.meta.ModuleDetails;
-import com.puppycrawl.tools.checkstyle.meta.ModulePropertyDetails;
-import com.puppycrawl.tools.checkstyle.meta.ModuleType;
-import com.puppycrawl.tools.checkstyle.meta.XmlMetaWriter;
 import com.puppycrawl.tools.checkstyle.site.JavadocScraperResultUtil;
 import com.puppycrawl.tools.checkstyle.site.ModuleJavadocParsingUtil;
 import com.puppycrawl.tools.checkstyle.site.PropertyDetails;
