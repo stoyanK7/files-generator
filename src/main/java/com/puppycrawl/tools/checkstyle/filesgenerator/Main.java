@@ -22,9 +22,6 @@ public class Main implements Callable<Integer> {
     @Option(names = "--generateMetadata", description = "Generate metadata files.")
     private boolean generateMetadata;
 
-    @Option(names = "--generateXdoc", description = "Generate XDoc files.")
-    private boolean generateXdoc;
-
     @Override
     public Integer call() throws Exception {
         if (generateMetadata) {
@@ -41,9 +38,6 @@ public class Main implements Callable<Integer> {
                     .toString();
             MetadataGeneratorUtil.generate(
                     checkstyleModulesDir, "checks", "filters", "filefilters");
-        }
-        if (generateXdoc) {
-            // TODO: https://github.com/checkstyle/checkstyle/issues/13426
         }
         return 0;
     }
