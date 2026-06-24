@@ -1,23 +1,36 @@
 # checkstyle-files-generator
 
-## Build the `-all.jar`
+`checkstyle-files-generator` is a small command-line application used by Checkstyle
+to generate files that are needed during the build. The current implementation
+generates XML metadata files; XDoc generation will be added separately.
 
-Run:
+## Usage
+
+Build the runnable jar and execute it against a Checkstyle checkout:
+
+```bash
+./mvnw package
+java -jar target/checkstyle-files-generator-1.0.0-all.jar /path/to/checkstyle --generateMetadata
+```
+
+## Build
 
 ```bash
 ./mvnw package
 ```
 
-The jar is created at:
+The shaded runnable jar is created at:
 
 ```text
 target/checkstyle-files-generator-1.0.0-all.jar
 ```
 
-## Make `checkstyle:X.X.X-SNAPSHOT` available in local Maven Repository
+## Publish
 
-In checkstyle project, run:
+Publish the artifact with Maven:
 
 ```bash
-./mvnw clean install -Pno-validations
+./mvnw deploy
 ```
+
+The repository target is configured in `pom.xml` under `distributionManagement`.
