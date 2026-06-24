@@ -16,7 +16,7 @@ import picocli.CommandLine.Parameters;
 )
 public class Main implements Callable<Integer> {
 
-    @Parameters(description = "Path to the checkstyle repository directory.")
+    @Parameters(description = "Path to the checkstyle source code directory.")
     private Path checkstylePath;
 
     @Option(names = "--generateMetadata", description = "Generate metadata files.")
