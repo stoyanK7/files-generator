@@ -36,7 +36,7 @@ public class Main implements Callable<Integer> {
             MetadataGeneratorUtil.generate(checkstylePath, "checks", "filters", "filefilters");
         }
         if (generateXdoc) {
-            // TODO
+            // TODO: until https://github.com/checkstyle/checkstyle/issues/13426
         }
         return 0;
     }
