@@ -44,8 +44,8 @@ public final class ModuleDetails {
      * @param violationMessageKeys violation message keys.
      */
     public ModuleDetails(String name, String fullQualifiedName, String parent, String description,
-                         ModuleType moduleType, List<ModulePropertyDetails> properties,
-                         List<String> violationMessageKeys) {
+            ModuleType moduleType, List<ModulePropertyDetails> properties,
+            List<String> violationMessageKeys) {
         this.name = name;
         this.fullQualifiedName = fullQualifiedName;
         this.parent = parent;
