@@ -47,11 +47,12 @@ public final class XmlMetaWriter {
      * Helper function to write module details to XML file.
      *
      * @param moduleDetails module details
+     * @param checkstylePath path to the checkstyle source code directory
      * @throws TransformerException if a transformer exception occurs
      * @throws ParserConfigurationException if a parser configuration exception occurs
      */
-    public static void write(ModuleDetails moduleDetails) throws TransformerException,
-            ParserConfigurationException {
+    public static void write(ModuleDetails moduleDetails, Path checkstylePath)
+            throws TransformerException, ParserConfigurationException {
         final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
@@ -88,7 +89,7 @@ public final class XmlMetaWriter {
             checkModule.appendChild(messageKeys);
         }
 
-        writeToFile(doc, moduleDetails);
+        writeToFile(doc, moduleDetails, checkstylePath);
     }
 
     /**
@@ -130,17 +131,23 @@ public final class XmlMetaWriter {
      *
      * @param document document updated with all module metadata
      * @param moduleDetails the corresponding module details object
+     * @param checkstylePath path to the checkstyle source code directory
      * @throws TransformerException if a transformer exception occurs
      */
-    private static void writeToFile(Document document, ModuleDetails moduleDetails)
-            throws TransformerException {
+    private static void writeToFile(Document document,
+                                    ModuleDetails moduleDetails,
+                                    Path checkstylePath) throws TransformerException {
         String fileSeparator = DEFAULT_FILE_SEPARATOR;
         if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("win")) {
             fileSeparator = "\\" + fileSeparator;
         }
         final String modifiedPath;
         final String xmlExtension = ".xml";
-        final String rootOutputPath = System.getProperty("user.dir") + "/src/main/resources";
+        final String rootOutputPath = checkstylePath
+                                        .resolve("src")
+                                        .resolve("main")
+                                        .resolve("resources")
+                                        .toString();
         final String fullQualifiedName = moduleDetails.getFullQualifiedName();
         if (fullQualifiedName.startsWith("com.puppycrawl.tools.checkstyle")) {
             final String moduleFilePath = FILEPATH_CONVERSION

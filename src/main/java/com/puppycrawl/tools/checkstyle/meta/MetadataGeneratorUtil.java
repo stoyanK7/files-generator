@@ -33,15 +33,26 @@ public final class MetadataGeneratorUtil {
     /**
      * Generate metadata from the module source files available in the input argument path.
      *
-     * @param path arguments
+     * @param checkstylePath path to the checkstyle source code directory
      * @param moduleFolders folders to check
      * @throws IOException ioException
      * @throws CheckstyleException checkstyleException
      */
-    public static void generate(String path, String... moduleFolders)
+    public static void generate(Path checkstylePath, String... moduleFolders)
             throws IOException, CheckstyleException {
+        final String checkstyleModulesDir = checkstylePath.resolve(
+                    Path.of(
+                            "src",
+                            "main",
+                            "java",
+                            "com",
+                            "puppycrawl",
+                            "tools",
+                            "checkstyle"))
+                    .toAbsolutePath()
+                    .toString();
         final List<File> modulesToProcess =
-            getTargetFiles(path, moduleFolders);
+            getTargetFiles(checkstyleModulesDir, moduleFolders);
 
         try {
             for (File file : modulesToProcess) {
@@ -52,8 +63,8 @@ public final class MetadataGeneratorUtil {
                     continue;
                 }
 
-                final ModuleDetails moduleDetails = getModuleDetails(file);
-                writeMetadataFile(moduleDetails);
+                final ModuleDetails moduleDetails = getModuleDetails(checkstylePath, file);
+                writeMetadataFile(moduleDetails, checkstylePath);
             }
         }
         catch (MacroExecutionException macroException) {
@@ -64,11 +75,13 @@ public final class MetadataGeneratorUtil {
     /**
      * Generate metadata for the given file.
      *
+     * @param checkstylePath path to the checkstyle source code directory
      * @param file file to generate metadata for.
      * @return module details.
      * @throws MacroExecutionException macroExecutionException
      */
-    private static ModuleDetails getModuleDetails(File file) throws MacroExecutionException {
+    private static ModuleDetails getModuleDetails(Path checkstylePath, File file)
+            throws MacroExecutionException {
         final String moduleName = SiteUtil.FINAL_CHECK.matcher(SiteUtil.getModuleName(file))
             .replaceAll("");
 
@@ -87,7 +100,8 @@ public final class MetadataGeneratorUtil {
         final String className = SiteUtil.getModuleName(file);
         final Set<String> properties = SiteUtil.getPropertiesForDocumentation(clss, instance);
         final Map<String, PropertyDetails> scrapedPropertyDetails = SiteUtil
-                .buildPropertyDetails(properties, className, file.toPath(), instance);
+                .buildPropertyDetails(properties, className,
+                        file.toPath(), instance, checkstylePath);
         String description = JavadocScraperResultUtil.getModuleDescription();
 
         final String notes = JavadocScraperResultUtil.getModuleNotes();
@@ -179,12 +193,13 @@ public final class MetadataGeneratorUtil {
      * Write metadata file for the given module.
      *
      * @param moduleDetails module details.
+     * @param checkstylePath path to the checkstyle source code directory
      * @throws CheckstyleException if an error occurs during writing metadata file.
      */
-    private static void writeMetadataFile(ModuleDetails moduleDetails)
+    private static void writeMetadataFile(ModuleDetails moduleDetails, Path checkstylePath)
             throws CheckstyleException {
         try {
-            XmlMetaWriter.write(moduleDetails);
+            XmlMetaWriter.write(moduleDetails, checkstylePath);
         }
         catch (TransformerException | ParserConfigurationException example) {
             throw new CheckstyleException(

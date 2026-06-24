@@ -33,19 +33,7 @@ public class Main implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         if (generateMetadata) {
-            final String checkstyleModulesDir = checkstylePath.resolve(
-                    Path.of(
-                            "src",
-                            "main",
-                            "java",
-                            "com",
-                            "puppycrawl",
-                            "tools",
-                            "checkstyle"))
-                    .toAbsolutePath()
-                    .toString();
-            MetadataGeneratorUtil.generate(
-                    checkstyleModulesDir, "checks", "filters", "filefilters");
+            MetadataGeneratorUtil.generate(checkstylePath, "checks", "filters", "filefilters");
         }
         if (generateXdoc) {
             // TODO
