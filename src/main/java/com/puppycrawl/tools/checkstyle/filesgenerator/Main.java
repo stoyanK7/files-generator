@@ -22,6 +22,14 @@ public class Main implements Callable<Integer> {
     @Option(names = "--generateMetadata", description = "Generate metadata files.")
     private boolean generateMetadata;
 
+    @Option(names="--generateXdoc", description = "Generate XDoc files.")
+    private boolean generateXdoc;
+
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new Main()).execute(args);
+        System.exit(exitCode);
+    }
+
     @Override
     public Integer call() throws Exception {
         if (generateMetadata) {
@@ -39,11 +47,9 @@ public class Main implements Callable<Integer> {
             MetadataGeneratorUtil.generate(
                     checkstyleModulesDir, "checks", "filters", "filefilters");
         }
+        if (generateXdoc) {
+            // TODO
+        }
         return 0;
-    }
-
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new Main()).execute(args);
-        System.exit(exitCode);
     }
 }
