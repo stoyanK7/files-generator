@@ -11,7 +11,7 @@ import picocli.CommandLine.Parameters;
 
 @Command(
     name = "checkstyle-files-generator",
-    description = "Generates metadata and XDoc files in the specified checkstyle repository.",
+    description = "Generates metadata and XDoc files in the specified checkstyle directory.",
     mixinStandardHelpOptions = true
 )
 public class Main implements Callable<Integer> {
