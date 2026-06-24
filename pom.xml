@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.puppycrawl.tools.checkstyle</groupId>
-  <artifactId>files-generator</artifactId>
+  <artifactId>checkstyle-files-generator</artifactId>
   <version>1.0.0</version>
 
   <properties>

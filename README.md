@@ -1,4 +1,4 @@
-# files-generator
+# checkstyle-files-generator
 
 ## Build the `-all.jar`
 
@@ -11,5 +11,5 @@ Run:
 The shaded jar is created at:
 
 ```text
-target/files-generator-1.0.0-all.jar
+target/checkstyle-files-generator-1.0.0-all.jar
 ```
