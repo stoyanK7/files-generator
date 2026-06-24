@@ -17,9 +17,9 @@ import javax.xml.transform.TransformerException;
 import org.apache.maven.doxia.macro.MacroExecutionException;
 import org.itsallcode.io.Capturable;
 import org.itsallcode.junit.sysextensions.SystemOutGuard;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.Disabled;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -52,7 +52,7 @@ public final class MetadataGeneratorUtilTest extends AbstractModuleTestSupport {
      *                   if an I/O error is thrown when accessing the starting f
      */
     @Test
-    @Disabled("Used for metadata generation only; Main.java will handle this going forward.")
+    @Disabled("Used for metadata generation mainly; Main.java will handle this going forward.")
     public void testMetadataFilesGenerationAllFiles(@SystemOutGuard.SysOut Capturable systemOut)
             throws Exception {
         systemOut.captureMuted();
@@ -103,7 +103,7 @@ public final class MetadataGeneratorUtilTest extends AbstractModuleTestSupport {
                 MetadataGeneratorUtil.generate(
                         System.getProperty("user.dir")
                                 + "/src/main/java/com/puppycrawl/tools/checkstyle",
-                        "filesgenerator");
+                        "checks");
                 assertWithMessage("CheckstyleException should have been thrown").fail();
             }
             catch (CheckstyleException exception) {
@@ -134,7 +134,7 @@ public final class MetadataGeneratorUtilTest extends AbstractModuleTestSupport {
                 MetadataGeneratorUtil.generate(
                         System.getProperty("user.dir")
                                 + "/src/main/java/com/puppycrawl/tools/checkstyle",
-                        "filesgenerator");
+                        "checks");
                 assertWithMessage("CheckstyleException should have been thrown").fail();
             }
             catch (CheckstyleException exception) {
