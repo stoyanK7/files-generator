@@ -19,5 +19,5 @@ target/checkstyle-files-generator-1.0.0-all.jar
 In checkstyle project, run:
 
 ```bash
-./mvnw clean install -Dno-validations
+./mvnw clean install -Pno-validations
 ```
