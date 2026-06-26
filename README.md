@@ -27,10 +27,6 @@ target/checkstyle-files-generator-1.0.0-all.jar
 
 ## Publish
 
-Publish the artifact with Maven:
-
-```bash
-./mvnw deploy
-```
-
-The repository target is configured in `pom.xml` under `distributionManagement`.
+Trigger workflow
+[`.github/workflows/release-maven-deploy.yml``](.github/workflows/release-maven-deploy.yml)
+to publish a new version of the project.
