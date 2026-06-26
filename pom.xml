@@ -7,7 +7,7 @@
   <!--./mvnw -B clean deploy -Pcentral-release -Pgpg  -->
   <groupId>io.github.stoyank7</groupId>
   <artifactId>checkstyle-files-generator</artifactId>
-  <version>1.0.0-stoyan-1</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-files-generator</name>
