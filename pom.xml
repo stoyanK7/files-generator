@@ -48,12 +48,6 @@
       <artifactId>checkstyle</artifactId>
       <groupId>io.github.stoyank7</groupId>
       <version>13.7.0-stoyan-1</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.puppycrawl.tools.checkstyle</groupId>
-          <artifactId>checkstyle-files-generator</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>info.picocli</groupId>
