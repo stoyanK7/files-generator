@@ -6,11 +6,11 @@
 
   <groupId>io.github.stoyank7</groupId>
   <artifactId>checkstyle-files-generator</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-files-generator</name>
-  <description>Utility for generating Checkstyle metadata and xdocs files.</description>
+  <description>Utility for generating Checkstyle metadata files.</description>
   <url>https://github.com/stoyanK7/checkstyle-files-generator</url>
 
   <licenses>
@@ -40,13 +40,20 @@
     <java.version>21</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <checkstyle.version>13.10.0</checkstyle.version>
   </properties>
 
   <dependencies>
     <dependency>
       <artifactId>checkstyle</artifactId>
-      <groupId>io.github.stoyank7</groupId>
-      <version>13.7.0-stoyan-2</version>
+      <groupId>com.puppycrawl.tools</groupId>
+      <version>${checkstyle.version}</version>
+      <!--
+        Keep released Checkstyle available to the standalone shaded CLI, but do not expose it
+        transitively when this artifact runs as an exec-maven-plugin dependency. In that case,
+        the Checkstyle project supplies its own freshly compiled classes.
+      -->
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>info.picocli</groupId>
@@ -63,25 +70,9 @@
           <artifactId>maven-shade-plugin</artifactId>
           <version>3.6.2</version>
         </plugin>
-        <plugin>
-          <groupId>org.codehaus.plexus</groupId>
-          <artifactId>plexus-component-metadata</artifactId>
-          <version>2.2.0</version>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-component-metadata</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate-metadata</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <!-- Creates the all-inclusive uber jar -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -101,6 +92,15 @@
                     <exclude>META-INF/*.SF</exclude>
                     <exclude>META-INF/*.DSA</exclude>
                     <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>com.puppycrawl.tools:checkstyle</artifact>
+                  <excludes>
+                    <exclude>
+                      com/puppycrawl/tools/checkstyle/meta/MetadataGeneratorUtil.class
+                    </exclude>
+                    <exclude>com/puppycrawl/tools/checkstyle/meta/XmlMetaWriter.class</exclude>
                   </excludes>
                 </filter>
               </filters>

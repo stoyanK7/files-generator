@@ -6,12 +6,17 @@ generates XML metadata files; XDoc generation will be added separately.
 
 ## Usage
 
-Build the runnable jar and execute it against a Checkstyle checkout:
+Build the runnable jar and execute it from a Checkstyle checkout:
 
 ```bash
 ./mvnw package
-java -jar target/checkstyle-files-generator-1.0.0-all.jar /path/to/checkstyle --generateMetadata
+cd /path/to/checkstyle
+java -jar /path/to/checkstyle-files-generator-1.0.3-all.jar . --generateMetadata
 ```
+
+The shaded CLI contains the released Checkstyle version it was built against. During
+the Checkstyle Maven build, the regular (unshaded) artifact is used instead, so the
+generator sees the current checkout's freshly compiled classes.
 
 ## Build
 
@@ -22,7 +27,7 @@ java -jar target/checkstyle-files-generator-1.0.0-all.jar /path/to/checkstyle --
 The shaded runnable jar is created at:
 
 ```text
-target/checkstyle-files-generator-1.0.0-all.jar
+target/checkstyle-files-generator-1.0.3-all.jar
 ```
 
 ## Publish

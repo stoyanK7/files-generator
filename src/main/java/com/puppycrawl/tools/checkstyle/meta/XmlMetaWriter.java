@@ -1,9 +1,9 @@
 package com.puppycrawl.tools.checkstyle.meta;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -25,17 +25,18 @@ import org.w3c.dom.Node;
  */
 public final class XmlMetaWriter {
 
-    /** Compiled pattern for {@code .} used for generating file paths from package names. */
-    private static final Pattern FILEPATH_CONVERSION = Pattern.compile("\\.");
+    /** Package containing Checkstyle's metadata resources. */
+    private static final Path CHECKSTYLE_METADATA_PATH = Path.of(
+            "com", "puppycrawl", "tools", "checkstyle", "meta");
+
+    /** Checkstyle's base package. */
+    private static final String CHECKSTYLE_PACKAGE = "com.puppycrawl.tools.checkstyle.";
 
     /** Name tag of metadata XML files. */
     private static final String XML_TAG_NAME = "name";
 
     /** Description tag of metadata XML files. */
     private static final String XML_TAG_DESCRIPTION = "description";
-
-    /** Default(UNIX) file separator. */
-    private static final String DEFAULT_FILE_SEPARATOR = "/";
 
     /**
      * Do no allow {@code XmlMetaWriter} instances to be created.
@@ -50,9 +51,10 @@ public final class XmlMetaWriter {
      * @param checkstylePath path to the checkstyle source code directory
      * @throws TransformerException if a transformer exception occurs
      * @throws ParserConfigurationException if a parser configuration exception occurs
+     * @throws IOException if an output directory cannot be created
      */
     public static void write(ModuleDetails moduleDetails, Path checkstylePath)
-            throws TransformerException, ParserConfigurationException {
+            throws TransformerException, ParserConfigurationException, IOException {
         final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
@@ -89,7 +91,11 @@ public final class XmlMetaWriter {
             checkModule.appendChild(messageKeys);
         }
 
-        writeToFile(doc, moduleDetails, checkstylePath);
+        final Path relativeOutputPath = getRelativeOutputPath(moduleDetails);
+        writeToFile(doc, checkstylePath.resolve("src/main/resources")
+                .resolve(relativeOutputPath));
+        writeToFile(doc, checkstylePath.resolve("target/classes")
+                .resolve(relativeOutputPath));
     }
 
     /**
@@ -130,44 +136,13 @@ public final class XmlMetaWriter {
      * Function to write the prepared document object into an XML file.
      *
      * @param document document updated with all module metadata
-     * @param moduleDetails the corresponding module details object
-     * @param checkstylePath path to the checkstyle source code directory
+     * @param outputFile destination file
      * @throws TransformerException if a transformer exception occurs
+     * @throws IOException if the output directory cannot be created
      */
-    private static void writeToFile(Document document,
-                                    ModuleDetails moduleDetails,
-                                    Path checkstylePath) throws TransformerException {
-        String fileSeparator = DEFAULT_FILE_SEPARATOR;
-        if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("win")) {
-            fileSeparator = "\\" + fileSeparator;
-        }
-        final String modifiedPath;
-        final String xmlExtension = ".xml";
-        final String rootOutputPath = checkstylePath
-                                        .resolve("src")
-                                        .resolve("main")
-                                        .resolve("resources")
-                                        .toString();
-        final String fullQualifiedName = moduleDetails.getFullQualifiedName();
-        if (fullQualifiedName.startsWith("com.puppycrawl.tools.checkstyle")) {
-            final String moduleFilePath = FILEPATH_CONVERSION
-                    .matcher(fullQualifiedName)
-                    .replaceAll(fileSeparator);
-            final String checkstyleString = "checkstyle";
-            final int indexOfCheckstyle =
-                    moduleFilePath.indexOf(checkstyleString) + checkstyleString.length();
-
-            modifiedPath = rootOutputPath + DEFAULT_FILE_SEPARATOR
-                    + moduleFilePath.substring(0, indexOfCheckstyle) + "/meta/"
-                    + moduleFilePath.substring(indexOfCheckstyle + 1) + xmlExtension;
-        }
-        else {
-            String moduleName = moduleDetails.getName();
-            if (moduleDetails.getModuleType() == ModuleType.CHECK) {
-                moduleName += "Check";
-            }
-            modifiedPath = rootOutputPath + "/checkstylemeta-" + moduleName + xmlExtension;
-        }
+    private static void writeToFile(Document document, Path outputFile)
+            throws TransformerException, IOException {
+        Files.createDirectories(outputFile.getParent());
 
         final TransformerFactory transformerFactory = TransformerFactory.newInstance();
         final Transformer transformer = transformerFactory.newTransformer();
@@ -175,8 +150,32 @@ public final class XmlMetaWriter {
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
         final DOMSource source = new DOMSource(document);
-        final StreamResult result = new StreamResult(Path.of(modifiedPath).toFile());
+        final StreamResult result = new StreamResult(outputFile.toFile());
         transformer.transform(source, result);
+    }
 
+    /**
+     * Resolve a module's metadata path relative to a resource root.
+     *
+     * @param moduleDetails corresponding module details
+     * @return metadata resource path
+     */
+    private static Path getRelativeOutputPath(ModuleDetails moduleDetails) {
+        final Path result;
+        final String fullQualifiedName = moduleDetails.getFullQualifiedName();
+        if (fullQualifiedName.startsWith(CHECKSTYLE_PACKAGE)) {
+            final String relativeClassName = fullQualifiedName
+                    .substring(CHECKSTYLE_PACKAGE.length())
+                    .replace('.', '/');
+            result = CHECKSTYLE_METADATA_PATH.resolve(relativeClassName + ".xml");
+        }
+        else {
+            String moduleName = moduleDetails.getName();
+            if (moduleDetails.getModuleType() == ModuleType.CHECK) {
+                moduleName += "Check";
+            }
+            result = Path.of("checkstylemeta-" + moduleName + ".xml");
+        }
+        return result;
     }
 }

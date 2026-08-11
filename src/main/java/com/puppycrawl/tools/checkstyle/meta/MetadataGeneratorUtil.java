@@ -63,7 +63,7 @@ public final class MetadataGeneratorUtil {
                     continue;
                 }
 
-                final ModuleDetails moduleDetails = getModuleDetails(checkstylePath, file);
+                final ModuleDetails moduleDetails = getModuleDetails(file);
                 writeMetadataFile(moduleDetails, checkstylePath);
             }
         }
@@ -75,13 +75,11 @@ public final class MetadataGeneratorUtil {
     /**
      * Generate metadata for the given file.
      *
-     * @param checkstylePath path to the checkstyle source code directory
      * @param file file to generate metadata for.
      * @return module details.
      * @throws MacroExecutionException macroExecutionException
      */
-    private static ModuleDetails getModuleDetails(Path checkstylePath, File file)
-            throws MacroExecutionException {
+    private static ModuleDetails getModuleDetails(File file) throws MacroExecutionException {
         final String moduleName = SiteUtil.FINAL_CHECK.matcher(SiteUtil.getModuleName(file))
             .replaceAll("");
 
@@ -100,8 +98,7 @@ public final class MetadataGeneratorUtil {
         final String className = SiteUtil.getModuleName(file);
         final Set<String> properties = SiteUtil.getPropertiesForDocumentation(clss, instance);
         final Map<String, PropertyDetails> scrapedPropertyDetails = SiteUtil
-                .buildPropertyDetails(properties, className,
-                        file.toPath(), instance, checkstylePath);
+                .buildPropertyDetails(properties, className, file.toPath(), instance);
         String description = JavadocScraperResultUtil.getModuleDescription();
 
         final String notes = JavadocScraperResultUtil.getModuleNotes();
@@ -201,7 +198,7 @@ public final class MetadataGeneratorUtil {
         try {
             XmlMetaWriter.write(moduleDetails, checkstylePath);
         }
-        catch (TransformerException | ParserConfigurationException example) {
+        catch (IOException | TransformerException | ParserConfigurationException example) {
             throw new CheckstyleException(
                     "Failed to write metadata into XML file for module: "
                             + moduleDetails.getName(), example);
