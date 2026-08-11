@@ -1,4 +1,5 @@
 name: Verify
+run-name: Verify pull request
 
 on:
   pull_request:
@@ -12,6 +13,7 @@ concurrency:
 
 jobs:
   verify:
+    name: Verify pull request
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -24,5 +26,5 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Verify
-        run: ./mvnw --batch-mode verify
+      - name: Run verification
+        run: ./.ci/verify.sh
