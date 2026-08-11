@@ -1,9 +1,5 @@
-#############################################################################
-# GitHub Action to Deploy to Maven Central.
-#
-#############################################################################
-name: "R: Deploy"
-run-name: "R: Deploy to Maven Central"
+name: Release Deploy Maven Central
+run-name: Deploy release artifacts to Maven Central
 on:
   workflow_dispatch:
 
@@ -15,23 +11,23 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  deploy-to-maven-central:
     name: Deploy to Maven Central
     runs-on: ubuntu-latest
     steps:
+      - name: Check out main branch
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: main
+
       - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: 'temurin'
 
-      - name: Checkout the latest code
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          ref: main
-
-      - name: Setup local maven cache
+      - name: Set up Maven cache
         uses: actions/cache@v6
         with:
           path: ~/.m2/repository
@@ -43,15 +39,15 @@ jobs:
         run: |
           ./.ci/release-configure-gpg.sh
 
-      - name: Prepare release settings
+      - name: Configure Maven release settings
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PWD: ${{ secrets.SONATYPE_PWD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
         run: |
-          ./.ci/release-create-maven-settings-xml.sh
+          ./.ci/release-configure-maven-settings.sh
 
-      - name: Run Shell Script
+      - name: Deploy release artifacts
         run: |
-          ./.ci/release-maven-deploy.sh
+          ./.ci/release-deploy-maven-central.sh

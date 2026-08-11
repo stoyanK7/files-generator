@@ -32,5 +32,5 @@ target/checkstyle-files-generator-1.0.3.jar
 ## Publish
 
 Trigger workflow
-[`.github/workflows/release-maven-deploy.yml`](.github/workflows/release-maven-deploy.yml)
+[`.github/workflows/release-deploy-maven-central.yml`](.github/workflows/release-deploy-maven-central.yml)
 to publish a new version of the project.
