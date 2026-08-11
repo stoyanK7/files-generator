@@ -4,19 +4,18 @@
 to generate files that are needed during the build. The current implementation
 generates XML metadata files; XDoc generation will be added separately.
 
-## Usage
+## Integration
 
-Build the runnable jar and execute it from a Checkstyle checkout:
+Install the generator into Maven Local while developing both projects:
 
 ```bash
 ./mvnw package
-cd /path/to/checkstyle
-java -jar /path/to/checkstyle-files-generator-1.0.3-all.jar . --generateMetadata
+./mvnw install
 ```
 
-The shaded CLI contains the released Checkstyle version it was built against. During
-the Checkstyle Maven build, the regular (unshaded) artifact is used instead, so the
-generator sees the current checkout's freshly compiled classes.
+Checkstyle invokes the generator through `exec-maven-plugin`. The generator artifact
+does not contain Checkstyle; its runtime classpath must include the Checkstyle checkout's
+freshly compiled classes and dependencies.
 
 ## Build
 
@@ -24,10 +23,10 @@ generator sees the current checkout's freshly compiled classes.
 ./mvnw package
 ```
 
-The shaded runnable jar is created at:
+The thin generator jar is created at:
 
 ```text
-target/checkstyle-files-generator-1.0.3-all.jar
+target/checkstyle-files-generator-1.0.3.jar
 ```
 
 ## Publish

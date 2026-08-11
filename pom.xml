@@ -48,12 +48,7 @@
       <artifactId>checkstyle</artifactId>
       <groupId>com.puppycrawl.tools</groupId>
       <version>${checkstyle.version}</version>
-      <!--
-        Keep released Checkstyle available to the standalone shaded CLI, but do not expose it
-        transitively when this artifact runs as an exec-maven-plugin dependency. In that case,
-        the Checkstyle project supplies its own freshly compiled classes.
-      -->
-      <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>info.picocli</groupId>
@@ -61,64 +56,6 @@
       <version>4.7.7</version>
     </dependency>
   </dependencies>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>3.6.2</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <!-- Creates the all-inclusive uber jar -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <filters>
-                <filter>
-                  <artifact>*:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/MANIFEST.MF</exclude>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                  </excludes>
-                </filter>
-                <filter>
-                  <artifact>com.puppycrawl.tools:checkstyle</artifact>
-                  <excludes>
-                    <exclude>
-                      com/puppycrawl/tools/checkstyle/meta/MetadataGeneratorUtil.class
-                    </exclude>
-                    <exclude>com/puppycrawl/tools/checkstyle/meta/XmlMetaWriter.class</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <shadedArtifactAttached>true</shadedArtifactAttached>
-              <shadedClassifierName>all</shadedClassifierName>
-              <transformers>
-                <transformer
-                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.puppycrawl.tools.checkstyle.filesgenerator.Main</mainClass>
-                </transformer>
-              </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
   <profiles>
     <profile>
