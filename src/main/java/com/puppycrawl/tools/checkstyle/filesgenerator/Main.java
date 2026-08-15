@@ -3,6 +3,7 @@ package com.puppycrawl.tools.checkstyle.filesgenerator;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
+import com.puppycrawl.tools.checkstyle.filesgenerator.site.XdocGenerator;
 import com.puppycrawl.tools.checkstyle.meta.MetadataGeneratorUtil;
 
 import picocli.CommandLine;
@@ -12,7 +13,7 @@ import picocli.CommandLine.Parameters;
 
 @Command(
     name = "checkstyle-files-generator",
-    description = "Generates metadata files in the specified Checkstyle directory.",
+    description = "Generates metadata and XDoc files in the specified Checkstyle directory.",
     mixinStandardHelpOptions = true
 )
 public final class Main implements Callable<Integer> {
@@ -20,10 +21,10 @@ public final class Main implements Callable<Integer> {
     @Parameters(description = "Path to the Checkstyle source code directory.")
     private Path checkstylePath;
 
-    @Option(names = "--generateMetadata", description = "Generate metadata files.", required = true)
+    @Option(names = "--generateMetadata", description = "Generate metadata files.")
     private boolean generateMetadata;
 
-    @Option(names="--generateXdoc", description = "Generate XDoc files.")
+    @Option(names = "--generateXdoc", description = "Generate XDoc files.")
     private boolean generateXdoc;
 
     /** Entry point for standalone command-line use. */
@@ -44,11 +45,15 @@ public final class Main implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        if (!generateMetadata && !generateXdoc) {
+            throw new CommandLine.ParameterException(new CommandLine(this),
+                    "At least one generation option is required.");
+        }
         if (generateMetadata) {
             MetadataGeneratorUtil.generate(checkstylePath, "checks", "filters", "filefilters");
         }
         if (generateXdoc) {
-            // TODO: until https://github.com/checkstyle/checkstyle/issues/13426
+            XdocGenerator.generate(checkstylePath);
         }
         return 0;
     }

@@ -18,10 +18,10 @@ import javax.xml.transform.TransformerException;
 import org.apache.maven.doxia.macro.MacroExecutionException;
 
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
-import com.puppycrawl.tools.checkstyle.site.JavadocScraperResultUtil;
-import com.puppycrawl.tools.checkstyle.site.ModuleJavadocParsingUtil;
-import com.puppycrawl.tools.checkstyle.site.PropertyDetails;
-import com.puppycrawl.tools.checkstyle.site.SiteUtil;
+import com.puppycrawl.tools.checkstyle.filesgenerator.site.JavadocScraperResultUtil;
+import com.puppycrawl.tools.checkstyle.filesgenerator.site.ModuleJavadocParsingUtil;
+import com.puppycrawl.tools.checkstyle.filesgenerator.site.PropertyDetails;
+import com.puppycrawl.tools.checkstyle.filesgenerator.site.SiteUtil;
 
 /** Class which handles all the metadata generation and writing calls. */
 public final class MetadataGeneratorUtil {
@@ -40,6 +40,7 @@ public final class MetadataGeneratorUtil {
      */
     public static void generate(Path checkstylePath, String... moduleFolders)
             throws IOException, CheckstyleException {
+        SiteUtil.initialize(checkstylePath);
         final String checkstyleModulesDir = checkstylePath.resolve(
                     Path.of(
                             "src",

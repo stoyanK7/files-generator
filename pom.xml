@@ -6,11 +6,11 @@
 
   <groupId>io.github.stoyank7</groupId>
   <artifactId>checkstyle-files-generator</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-files-generator</name>
-  <description>Utility for generating Checkstyle metadata files.</description>
+  <description>Utility for generating Checkstyle metadata and XDoc files.</description>
   <url>https://github.com/stoyanK7/checkstyle-files-generator</url>
 
   <licenses>
@@ -41,6 +41,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <checkstyle.version>13.10.0</checkstyle.version>
+    <doxia.version>1.12.0</doxia.version>
   </properties>
 
   <dependencies>
@@ -55,7 +56,34 @@
       <artifactId>picocli</artifactId>
       <version>4.7.7</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.doxia</groupId>
+      <artifactId>doxia-core</artifactId>
+      <version>${doxia.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.doxia</groupId>
+      <artifactId>doxia-module-xdoc</artifactId>
+      <version>${doxia.version}</version>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-component-metadata</artifactId>
+        <version>2.2.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-metadata</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
   <profiles>
     <profile>

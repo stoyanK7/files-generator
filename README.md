@@ -1,8 +1,8 @@
 # checkstyle-files-generator
 
 `checkstyle-files-generator` is a small command-line application used by Checkstyle
-to generate files that are needed during the build. The current implementation
-generates XML metadata files; XDoc generation will be added separately.
+to generate files that are needed during the build. It generates XML metadata files
+and converts the XDoc `.xml.template` files into generated `.xml` pages.
 
 ## Integration
 
@@ -26,7 +26,7 @@ freshly compiled classes and dependencies.
 The thin generator jar is created at:
 
 ```text
-target/checkstyle-files-generator-1.0.3.jar
+target/checkstyle-files-generator-1.0.4.jar
 ```
 
 ## Publish
