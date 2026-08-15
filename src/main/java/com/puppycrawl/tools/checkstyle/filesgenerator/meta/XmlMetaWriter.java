@@ -1,4 +1,4 @@
-package com.puppycrawl.tools.checkstyle.meta;
+package com.puppycrawl.tools.checkstyle.filesgenerator.meta;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +19,10 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import com.puppycrawl.tools.checkstyle.meta.ModuleDetails;
+import com.puppycrawl.tools.checkstyle.meta.ModulePropertyDetails;
+import com.puppycrawl.tools.checkstyle.meta.ModuleType;
 
 /**
  * Class to write module details object into an XML file.

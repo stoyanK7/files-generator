@@ -1,4 +1,4 @@
-package com.puppycrawl.tools.checkstyle.meta;
+package com.puppycrawl.tools.checkstyle.filesgenerator.meta;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +22,9 @@ import com.puppycrawl.tools.checkstyle.filesgenerator.site.JavadocScraperResultU
 import com.puppycrawl.tools.checkstyle.filesgenerator.site.ModuleJavadocParsingUtil;
 import com.puppycrawl.tools.checkstyle.filesgenerator.site.PropertyDetails;
 import com.puppycrawl.tools.checkstyle.filesgenerator.site.SiteUtil;
+import com.puppycrawl.tools.checkstyle.meta.ModuleDetails;
+import com.puppycrawl.tools.checkstyle.meta.ModulePropertyDetails;
+import com.puppycrawl.tools.checkstyle.meta.ModuleType;
 
 /** Class which handles all the metadata generation and writing calls. */
 public final class MetadataGeneratorUtil {
