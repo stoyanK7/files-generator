@@ -5,13 +5,6 @@ generating XML metadata and converting XDoc `.xml.template` files into generated
 `.xml` pages. It is not an end-user Checkstyle distribution; it is developed alongside
 the main [Checkstyle repository](https://github.com/checkstyle/checkstyle).
 
-## Prerequisites
-
-- JDK 21
-- Git
-
-The Maven Wrapper downloads the required Maven version automatically.
-
 ## Build and verify
 
 Run the same verification used by pull-request CI:
