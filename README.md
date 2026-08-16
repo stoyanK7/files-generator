@@ -1,36 +1,48 @@
 # checkstyle-files-generator
 
-`checkstyle-files-generator` is a small command-line application used by Checkstyle
-to generate files that are needed during the build. It generates XML metadata files
-and converts the XDoc `.xml.template` files into generated `.xml` pages.
+`checkstyle-files-generator` is Checkstyle's build-time command-line application for
+generating XML metadata and converting XDoc `.xml.template` files into generated
+`.xml` pages. It is not an end-user Checkstyle distribution; it is developed alongside
+the main [Checkstyle repository](https://github.com/checkstyle/checkstyle).
 
-## Integration
+## Prerequisites
 
-Install the generator into Maven Local while developing both projects:
+- JDK 21
+- Git
 
-```bash
-./mvnw package
-./mvnw install
-```
+The Maven Wrapper downloads the required Maven version automatically.
 
-Checkstyle invokes the generator through `exec-maven-plugin`. The generator artifact
-does not contain Checkstyle; its runtime classpath must include the Checkstyle checkout's
-freshly compiled classes and dependencies.
+## Build and verify
 
-## Build
+Run the same verification used by pull-request CI:
 
 ```bash
-./mvnw package
+./mvnw clean verify
 ```
 
-The thin generator jar is created at:
+## Developing with Checkstyle
 
-```text
-target/checkstyle-files-generator-1.0.4.jar
+After changing this project, install its current snapshot locally:
+
+```bash
+./mvnw clean install
 ```
 
-## Publish
+For a local integration build, temporarily set `checkstyle-files-generator.version` in
+the Checkstyle checkout's `pom.xml` to this project's version. Do not commit that
+local override. Then run the usual Checkstyle
+build from the `checkstyle` checkout. Checkstyle invokes this generator with
+`exec-maven-plugin`. The generator jar deliberately does not bundle Checkstyle: its
+runtime classpath is provided by the freshly compiled Checkstyle checkout.
 
-Trigger workflow
-[`.github/workflows/release-deploy-maven-central.yml`](.github/workflows/release-deploy-maven-central.yml)
-to publish a new version of the project.
+Normal development is driven through the Checkstyle build rather than by invoking the
+thin jar directly, because the command requires Checkstyle's build classes and dependencies.
+
+## Releases
+
+To publish a release, first set the release version in `pom.xml` and commit it to
+`main`. Then manually run the **Release Deploy Maven Central** workflow. It checks out
+`main` and deploys signed binary, source, and Javadoc artifacts to Maven Central.
+
+The workflow does not change the version, create commits or tags, or create a GitHub
+Release. It requires the Maven Central and GPG secrets configured for the repository.
