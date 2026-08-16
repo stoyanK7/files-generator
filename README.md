@@ -7,7 +7,7 @@ the main [Checkstyle repository](https://github.com/checkstyle/checkstyle).
 
 ## Build and verify
 
-Run the same verification used by pull-request CI:
+Run:
 
 ```bash
 ./mvnw clean verify
